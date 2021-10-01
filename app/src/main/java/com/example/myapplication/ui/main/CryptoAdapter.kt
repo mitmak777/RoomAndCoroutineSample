@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.data.Crypto
+import com.example.myapplication.data.Currency
 
 class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>(){
 
-    private var cryptoList = emptyList<Crypto>()
+    private var cryptoList = emptyList<Currency>()
 
     class CryptoViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView){
         var name : TextView
@@ -32,8 +32,9 @@ class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: CryptoViewHolder, position: Int) {
-        holder.name.text = "BITCOIN"
-        holder.symbol.text = "B"
+        val item = cryptoList.get(position)
+        holder.name.text = item.name
+        holder.symbol.text = item.symbol.subSequence(0,1)
 
     }
 
@@ -41,7 +42,7 @@ class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>(){
         return  cryptoList.size
     }
 
-    fun setCryptoList( list:List<Crypto>){
+    fun setCryptoList( list:List<Currency>){
         this.cryptoList = list
         this.notifyDataSetChanged()
     }

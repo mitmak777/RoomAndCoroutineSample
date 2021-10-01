@@ -1,28 +1,24 @@
 package com.example.myapplication.ui.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.myapplication.data.Crypto
+import androidx.lifecycle.*
+import com.example.myapplication.data.Currency
+import com.example.myapplication.data.CurrencyRepository
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val repository: CurrencyRepository) : ViewModel() {
     // TODO: Implement the ViewModel
 
-    private var cryptoList: LiveData<List<Crypto>> = MutableLiveData<List<Crypto>>(
-        listOf(
-            Crypto("BTC", "Bitcoin", "BTC"),
-            Crypto("BTC", "Bitcoin", "BTC"),
-            Crypto("BTC", "Bitcoin", "BTC"),
-            Crypto("BTC", "Bitcoin", "BTC"),
-            Crypto("BTC", "Bitcoin", "BTC"),
-            Crypto("BTC", "Bitcoin", "BTC"),
-            Crypto("BTC", "Bitcoin", "BTC"),
-            Crypto("BTC", "Bitcoin", "BTC"),
-            Crypto("BTC", "Bitcoin", "BTC"),
-            Crypto("BTC", "Bitcoin", "BTC"),
-
-            Crypto("BTC", "Bitcoin", "BTC")))
+    private var cryptoList: LiveData<List<Currency>> = repository.allCurrency.asLiveData()
 
 
     fun getCryptoList() = cryptoList
+}
+
+class MainViewModelFactory(private val repository: CurrencyRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return MainViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

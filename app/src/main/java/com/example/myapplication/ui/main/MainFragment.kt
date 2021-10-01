@@ -6,10 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.R
+import com.example.myapplication.MyApplication
+
 import com.example.myapplication.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
@@ -32,7 +30,7 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this,MainViewModelFactory((requireActivity().application as MyApplication).repository)).get(MainViewModel::class.java)
         // TODO: Use the ViewModel
         val adapter = CryptoAdapter()
         mainFragmentBinding.recyclerView.adapter =  adapter
