@@ -9,4 +9,6 @@ class CurrencyRepository(private val currencyDao: CurrencyDAO) {
     // Observed Flow will notify the observer when the data has changed.
     val allCurrency: Flow<List<Currency>> = currencyDao.getAll()
 
+    fun getSortedCurrency(isAsc : Boolean) = currencyDao.getAll(isAsc)
+
 }
