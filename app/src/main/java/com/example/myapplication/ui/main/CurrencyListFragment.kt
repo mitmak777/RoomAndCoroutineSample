@@ -6,15 +6,16 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.example.myapplication.MyApplication
 import com.example.myapplication.R
+import com.example.myapplication.data.CurrencyInfo
 
 import com.example.myapplication.databinding.MainFragmentBinding
 import kotlinx.coroutines.InternalCoroutinesApi
 import java.util.*
 
-class MainFragment : Fragment() {
+class CurrencyListFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = CurrencyListFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -66,7 +67,7 @@ class MainFragment : Fragment() {
     }
 
     interface OnCurrencyClickListener {
-        fun onCurrencyClicked(pos: Int , currency: com.example.myapplication.data.Currency)
+        fun onCurrencyClicked(pos: Int , currency: CurrencyInfo)
     }
 
 }

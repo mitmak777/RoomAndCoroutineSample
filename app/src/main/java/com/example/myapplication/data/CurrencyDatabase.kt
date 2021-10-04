@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(Currency::class), version = 1)
+@Database(entities = arrayOf(CurrencyInfo::class), version = 1)
 abstract class CurrencyDatabase : RoomDatabase() {
     abstract fun currencyDao(): CurrencyDAO
     private class CurrencyDatabaseCallback(
@@ -35,20 +35,20 @@ abstract class CurrencyDatabase : RoomDatabase() {
             currencyDao.deleteAll()
 
 
-            currencyDao.insert(Currency("BTC", "Bitcoin", "BTC"))
-            currencyDao.insert(Currency("ETH", "Ethereum", "ETH"))
-            currencyDao.insert(Currency("XRP", "XRP", "XRP"))
-            currencyDao.insert(Currency("BCH", "Bitcoin Cash", "BCH"))
-            currencyDao.insert(Currency("LTC", "Litecoin", "LTC"))
-            currencyDao.insert(Currency("EOS", "EOS", "EOS"))
-            currencyDao.insert(Currency("BNB", "Binance Coin", "BNB"))
-            currencyDao.insert(Currency("LINK", "ChainLink", "LINK"))
-            currencyDao.insert(Currency("NEO", "NEO", "NEO"))
-            currencyDao.insert(Currency("ETC", "Ethereum Classic", "ETC"))
-            currencyDao.insert(Currency("ONT", "Ontology", "ONT"))
-            currencyDao.insert(Currency("CRO", "Crypto.com Chain", "CRO"))
-            currencyDao.insert(Currency("CUC", "Cucumber", "CUC"))
-            currencyDao.insert(Currency("USDC", "USD Coin", "USDC"))
+            currencyDao.insert(CurrencyInfo("BTC", "Bitcoin", "BTC"))
+            currencyDao.insert(CurrencyInfo("ETH", "Ethereum", "ETH"))
+            currencyDao.insert(CurrencyInfo("XRP", "XRP", "XRP"))
+            currencyDao.insert(CurrencyInfo("BCH", "Bitcoin Cash", "BCH"))
+            currencyDao.insert(CurrencyInfo("LTC", "Litecoin", "LTC"))
+            currencyDao.insert(CurrencyInfo("EOS", "EOS", "EOS"))
+            currencyDao.insert(CurrencyInfo("BNB", "Binance Coin", "BNB"))
+            currencyDao.insert(CurrencyInfo("LINK", "ChainLink", "LINK"))
+            currencyDao.insert(CurrencyInfo("NEO", "NEO", "NEO"))
+            currencyDao.insert(CurrencyInfo("ETC", "Ethereum Classic", "ETC"))
+            currencyDao.insert(CurrencyInfo("ONT", "Ontology", "ONT"))
+            currencyDao.insert(CurrencyInfo("CRO", "Crypto.com Chain", "CRO"))
+            currencyDao.insert(CurrencyInfo("CUC", "Cucumber", "CUC"))
+            currencyDao.insert(CurrencyInfo("USDC", "USD Coin", "USDC"))
 
         }
 

@@ -2,9 +2,9 @@ package com.example.myapplication.ui.main
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.myapplication.data.Currency
 import com.example.myapplication.data.CurrencyRepository
 import androidx.lifecycle.MutableLiveData
+import com.example.myapplication.data.CurrencyInfo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.NonCancellable.isActive
 import kotlinx.coroutines.flow.collect
@@ -16,19 +16,20 @@ class MainViewModel(private val repository: CurrencyRepository) : ViewModel() {
 
     private var isAsc = false
 
-    private var cryptoList: MutableLiveData<List<Currency>> = MutableLiveData(emptyList())
+    private var cryptoList: MutableLiveData<List<CurrencyInfo>> = MutableLiveData(emptyList())
 
     private var currentJob : Job? = null
 
     val mutex = Mutex()
 
-    fun getCryptoList() : LiveData<List<Currency>>{
+    fun getCryptoList() : LiveData<List<CurrencyInfo>>{
 
         return cryptoList
     }
 
 
     fun updateSort(){
+
         //sort the list at non-UI thread
         if(currentJob?.isActive == true)
             currentJob?.cancel()

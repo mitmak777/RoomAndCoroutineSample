@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.data.Currency
+import com.example.myapplication.data.CurrencyInfo
 
 
 class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>(){
 
-    private var mCryptoList = emptyList<Currency>()
-    private var mOnCurrencyClickListener : MainFragment.OnCurrencyClickListener? = null
+    private var mCryptoList = emptyList<CurrencyInfo>()
+    private var mOnCurrencyClickListener : CurrencyListFragment.OnCurrencyClickListener? = null
     private var mRecyclerView : RecyclerView?= null
 
 
@@ -61,12 +61,12 @@ class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>(){
 
 
 
-    fun setCryptoList( list:List<Currency>){
+    fun setCryptoList( list:List<CurrencyInfo>){
         this.mCryptoList = list
         this.notifyDataSetChanged()
     }
 
-    fun setOnClickListener(listener: MainFragment.OnCurrencyClickListener?) {
+    fun setOnClickListener(listener: CurrencyListFragment.OnCurrencyClickListener?) {
         mOnCurrencyClickListener = listener
     }
 

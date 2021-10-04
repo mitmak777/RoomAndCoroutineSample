@@ -6,8 +6,9 @@ import androidx.room.PrimaryKey
 
 
 @Entity
-data class Currency(
+data class CurrencyInfo(
     @PrimaryKey val  id : String,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "symbol") val symbol: String
 )
+
