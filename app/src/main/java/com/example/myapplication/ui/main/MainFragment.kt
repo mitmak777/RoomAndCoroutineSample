@@ -8,6 +8,8 @@ import com.example.myapplication.MyApplication
 import com.example.myapplication.R
 
 import com.example.myapplication.databinding.MainFragmentBinding
+import kotlinx.coroutines.InternalCoroutinesApi
+import java.util.*
 
 class MainFragment : Fragment() {
 
@@ -17,6 +19,13 @@ class MainFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var mainFragmentBinding: MainFragmentBinding
+    private val adapter = CryptoAdapter()
+
+    var onCurrencyClickListener: OnCurrencyClickListener? = null
+    set(value) {
+        field = value
+        adapter.setOnClickListener(onCurrencyClickListener)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,9 +39,11 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this,MainViewModelFactory((requireActivity().application as MyApplication).repository)).get(MainViewModel::class.java)
-        val adapter = CryptoAdapter()
+
 
         mainFragmentBinding.recyclerView.adapter =  adapter
+
+
         this.setHasOptionsMenu(true)
         viewModel.getCryptoList().observe(viewLifecycleOwner,  {
             adapter.setCryptoList(it)
@@ -54,4 +65,11 @@ class MainFragment : Fragment() {
 
     }
 
+    interface OnCurrencyClickListener {
+        fun onCurrencyClicked(pos: Int , currency: com.example.myapplication.data.Currency)
+    }
+
 }
+
+
+

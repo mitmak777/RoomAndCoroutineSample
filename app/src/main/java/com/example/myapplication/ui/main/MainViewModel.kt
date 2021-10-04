@@ -1,58 +1,82 @@
 package com.example.myapplication.ui.main
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.myapplication.data.Currency
 import com.example.myapplication.data.CurrencyRepository
 import androidx.lifecycle.MutableLiveData
-
-
+import kotlinx.coroutines.*
+import kotlinx.coroutines.NonCancellable.isActive
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 
 class MainViewModel(private val repository: CurrencyRepository) : ViewModel() {
 
-    private val loadState : MutableLiveData<LoadState> = MutableLiveData(LoadState.NONE)
     private var isAsc = false
 
-    private var cryptoList: LiveData<List<Currency>> =
-        Transformations.switchMap(loadState) { state ->
-            return@switchMap when (state) {
-                LoadState.NONE,null -> MutableLiveData(emptyList())
-                LoadState.LOAD -> repository.allCurrency.asLiveData()
-                LoadState.SORT_ASC -> repository.getSortedCurrency(true).asLiveData()
-                LoadState.SORT_DES -> repository.getSortedCurrency(false).asLiveData()
-            }
+    private var cryptoList: MutableLiveData<List<Currency>> = MutableLiveData(emptyList())
 
+    private var currentJob : Job? = null
 
-        }
-
+    val mutex = Mutex()
 
     fun getCryptoList() : LiveData<List<Currency>>{
 
         return cryptoList
     }
 
+
     fun updateSort(){
-        if(loadState.value == LoadState.NONE)
-            return
-        isAsc = !isAsc
-        loadState.postValue(when (isAsc){ true -> LoadState.SORT_ASC false-> LoadState.SORT_DES})
+        //sort the list at non-UI thread
+        if(currentJob?.isActive == true)
+            currentJob?.cancel()
+        currentJob = viewModelScope.launch(Dispatchers.IO){
+            //use mutex to ensure only 1 thread update the list
+            mutex.withLock {
+                sortList()
+            }
+        }
     }
+
+
 
     fun loadList(){
-        loadState.postValue(LoadState.LOAD)
+        viewModelScope.launch {
+            // the query will run at non-ui thread and collect at ui thread for update
+            repository.allCurrency.collect{
+                cryptoList.postValue(it)
+            }
+
+        }
+
+    }
+
+
+
+
+
+
+
+    private suspend fun sortList(){
+        val list = cryptoList.value
+        list?.let{
+            isAsc = !isAsc
+            yield() // check if the current job is active, if not don't post value
+            cryptoList.postValue(when(isAsc) {
+                true ->list.sortedBy { it.name }
+                false-> list.sortedByDescending { it.name }
+            })
+
+        }
+
 
     }
 
 
 }
 
-enum class LoadState {
-    NONE,
-    LOAD,
-    SORT_ASC,
-    SORT_DES
-
-}
 
 class MainViewModelFactory(private val repository: CurrencyRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

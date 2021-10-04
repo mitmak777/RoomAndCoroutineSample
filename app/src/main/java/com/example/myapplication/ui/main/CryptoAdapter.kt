@@ -8,19 +8,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.Currency
 
+
 class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>(){
 
-    private var cryptoList = emptyList<Currency>()
+    private var mCryptoList = emptyList<Currency>()
+    private var mOnCurrencyClickListener : MainFragment.OnCurrencyClickListener? = null
+    private var mRecyclerView : RecyclerView?= null
+
 
     class CryptoViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView){
-        var name : TextView
-        var symbol : TextView
+        var mName : TextView
+        var mSymbol : TextView
+        var mId : TextView
 
         init{
-            name = itemView.findViewById(R.id.tv_name)
-            symbol = itemView.findViewById(R.id.tv_symbol)
+            mName = itemView.findViewById(R.id.tv_name)
+            mSymbol = itemView.findViewById(R.id.tv_symbol)
+            mId = itemView.findViewById(R.id.tv_id)
         }
 
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        this.mRecyclerView = recyclerView
+        super.onAttachedToRecyclerView(recyclerView)
     }
 
     override fun onCreateViewHolder(
@@ -28,24 +39,38 @@ class CryptoAdapter : RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>(){
         viewType: Int
     ): CryptoViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_crypto,parent,false)
+        view.setOnClickListener{
+           val position =  mRecyclerView?.getChildAdapterPosition(view) ?: -1
+            if( position > -1 )
+            mOnCurrencyClickListener?.onCurrencyClicked(position,mCryptoList.get(position))
+        }
         return CryptoViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CryptoViewHolder, position: Int) {
-        val item = cryptoList.get(position)
-        holder.name.text = item.name
-        holder.symbol.text = item.symbol.subSequence(0,1)
+        val item = mCryptoList.get(position)
+        holder.mName.text = item.name
+        holder.mSymbol.text = item.symbol
+        holder.mId.text = item.id.subSequence(0,1)
 
     }
 
     override fun getItemCount(): Int {
-        return  cryptoList.size
+        return  mCryptoList.size
     }
 
+
+
     fun setCryptoList( list:List<Currency>){
-        this.cryptoList = list
+        this.mCryptoList = list
         this.notifyDataSetChanged()
     }
+
+    fun setOnClickListener(listener: MainFragment.OnCurrencyClickListener?) {
+        mOnCurrencyClickListener = listener
+    }
+
+
 
 
 }

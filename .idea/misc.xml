@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/tim20/Documents/git/my_application/app/src/main/res/layout/item_crypto.xml" value="0.1296875" />
+        <entry key="..\:/Users/tim20/Documents/git/my_application/app/src/main/res/drawable/arrow.xml" value="0.1421875" />
+        <entry key="..\:/Users/tim20/Documents/git/my_application/app/src/main/res/drawable/rounded_corner.xml" value="0.1421875" />
+        <entry key="..\:/Users/tim20/Documents/git/my_application/app/src/main/res/layout/item_crypto.xml" value="0.6" />
         <entry key="..\:/Users/tim20/Documents/git/my_application/app/src/main/res/layout/main_fragment.xml" value="0.11510416666666666" />
+        <entry key="..\:/Users/tim20/Documents/git/my_application/app/src/main/res/menu/menu_main.xml" value="0.12604166666666666" />
       </map>
     </option>
   </component>
