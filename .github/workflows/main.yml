@@ -48,8 +48,10 @@ jobs:
     needs: unit_test
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name:  Generate Release APK
-        run: ./gradlew assembleRelease
+        run: bash ./gradlew assembleRelease
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
         # ID used to access action output
